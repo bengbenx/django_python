@@ -43,7 +43,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'taggit',
-    'django.contrib.sites',
     'django.contrib.sitemaps',
     'django.contrib.postgres',
     'crispy_forms',
