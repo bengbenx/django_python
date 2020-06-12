@@ -1,0 +1,20 @@
+{% extends 'account/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+    Update Profile
+{% endblock title %}
+
+{% block content %}
+    <h1>Update Profile</h1>
+    {% if request.user.profile.photo %}
+        <img src="{{ request.user.profile.photo.url }}" alt="" height="100px">
+    {% endif %}
+    <form action="" method="post" enctype="multipart/form-data">
+        {{ user_form|crispy }}
+        {{ profile_form|crispy }}
+        {% csrf_token %}
+        <br>
+        <p><input type="submit" value="Update" class="btn btn-primary"></p>
+    </form>
+{% endblock content %}

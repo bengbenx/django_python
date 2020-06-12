@@ -1,0 +1,15 @@
+{% extends 'blog/base.html' %}
+{% load crispy_forms_tags %}
+{% block title %}
+    Confirm Post
+{% endblock title %}
+
+{% block content %}
+    <h1>Confirm Delete Post</h1>
+    <form action="" method="post">
+        <p>Are you sure want to delete this item <strong>{{ object}}</strong></p>
+        {% csrf_token %}
+        <p><input type=submit value="Confirm"></p>
+    </form>
+{% endblock content %}
+    
