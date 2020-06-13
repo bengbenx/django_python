@@ -1,6 +1,6 @@
 from rest_framework import generics,mixins,permissions
-from ..models import Post
-from .serializers import PostSerializer,UserSerializer
+from ..models import Post,Reference
+from .serializers import PostSerializer,UserSerializer,ReferenceSerializer
 from django.contrib.auth import get_user_model
 from .permissions import IsAuthorOrReadonly
 from django.utils.text import slugify
@@ -69,3 +69,22 @@ class UserListView(generics.ListAPIView):
 class UserDetailView(generics.RetrieveAPIView):
     queryset=get_user_model().objects.all()
     serializer_class=UserSerializer
+
+class ReferenceListView(generics.ListCreateAPIView):
+    queryset=Reference.objects.all()
+    serializer_class=ReferenceSerializer
+    permission_classes=[permissions.IsAuthenticatedOrReadOnly]
+
+    def perform_create(self,serializer):
+        if serializer.is_valid():
+            serializer.save(author=self.request.user,
+                    slug=slugify(serializer.validated_data['title'],allow_unicode=True))
+
+class ReferenceDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset=Reference.objects.all()
+    serializer_class=ReferenceSerializer
+    permission_classes=[permissions.IsAuthenticatedOrReadOnly,IsAuthorOrReadonly]
+    
+    def perform_update(self,serializer):
+        if serializer.is_valid():
+            serializer.save(slug=slugify(serializer.validated_data['title'],allow_unicode=True))

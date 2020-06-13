@@ -18,4 +18,8 @@ urlpatterns=[
     path('post/add/',views.PostCreateView.as_view(), name='post_create'),
     path('post/<int:pk>-<slug:slug>/update/',views.PostUpdateView.as_view(), name='post_update'),
     path('post/<int:pk>-<slug:slug>/delete/',views.PostDeleteView.as_view(), name='post_delete'),
+    path('reference/',views.ReferenceListView.as_view(), name='reference_list'),
+    path('reference/add/',views.ReferenceCreateView.as_view(), name='reference_create'),
+    path('reference/<int:pk>-<slug:slug>/update/',views.ReferenceUpdateView.as_view(), name='reference_update'),
+    path('referense/<int:pk>-<slug:slug>/delete/',views.ReferenceDeleteView.as_view(), name='reference_delete'),
 ]

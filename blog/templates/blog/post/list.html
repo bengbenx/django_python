@@ -33,12 +33,13 @@
             Published {{ post.publish }} by {{ post.author }}
         </p>
         {{ post.body|markdown|truncatewords_html:30 }}
-        <p>
+        <div class="text-right">
             {% if post.author == request.user%}
                 <a href="{% url 'blog:post_update' post.id post.slug %}">Update Post</a> | 
                 <a href="{% url 'blog:post_delete' post.id post.slug %}">Delete Post</a>
             {% endif %}
-        </p>
+        </div>
+        <hr>
     {% endfor %}
 
     {% include "pagination.html" with page=page_obj %}

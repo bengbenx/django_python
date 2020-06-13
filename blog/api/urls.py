@@ -7,4 +7,6 @@ urlpatterns=[
     path('posts/<int:pk>/',views.PostDetailView.as_view(), name='api_post_detail'),
     path('users/',views.UserListView.as_view(), name='api_user_list'),
     path('users/<int:pk>',views.UserDetailView.as_view(), name='api_user_detail'),
+    path('references/',views.ReferenceListView.as_view(),name='api_reference_list'),
+    path('references/<int:pk>/',views.ReferenceDetailView.as_view(), name='api_reference_detail'),
 ]

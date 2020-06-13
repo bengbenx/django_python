@@ -20,6 +20,7 @@
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
               <div class="navbar-nav">
                 <a class="nav-item nav-link active" href="{% url 'blog:post_list' %}">Home <span class="sr-only">(current)</span></a>
+                <a class="nav-item nav-link active" href="{% url 'blog:reference_list' %}">Reference <span class="sr-only">(current)</span></a>
                 <a class="nav-item nav-link active" href="{% url 'blog:post_search' %}">Search <span class="sr-only">(current)</span></a>
             </div>
             </div>
@@ -58,13 +59,14 @@
         <div id="sidebar">
             <h2>My Blog</h2>
             <p>This is My Blog using Django Python. There are {% total_posts %} posts so far. </p>
-            <p><a href="{% url 'blog:post_create' %}">New Post</a></p>
+            <p><a href="{% url 'blog:post_create' %}">New Post</a> | <a href="{% url 'blog:reference_create' %}">New Reference</a></p>
             <p>
                 <a href="{% url 'blog:post_feed' %}">Subscribe to my RSS feed</a>
             </p>
             <h3>Latest posts</h3>
             {% show_latest_posts 3 %}
-
+            <h3>Latest references</h3>
+            {% show_latest_references 3 %}
             <h3>Most commented posts</h3>
             {% get_most_commented_posts as most_commented_posts %}
             <ul>

@@ -16,3 +16,8 @@ class CommentForm(forms.ModelForm):
 
 class SearchForm(forms.Form):
     query=forms.CharField()
+
+class ReferenceForm(forms.Form):
+    title=forms.CharField(max_length=250)
+    description=forms.CharField(required=False,widget=forms.Textarea)
+    link=forms.URLField()

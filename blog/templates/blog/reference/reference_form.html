@@ -1,0 +1,35 @@
+{% extends 'blog/base.html' %}
+{% load crispy_forms_tags %}
+{% block title %}
+    Create/Update Reference
+{% endblock title %}
+
+{% block content %}
+    <h1>
+        {% if 'add' in request.path|slice:'-7:' %}
+            Create New Reference
+        {% else %}
+            Update Reference
+        {% endif %}
+    </h1>
+    
+    {% if new_reference %}
+        <h2>Your reference has been added.</h2>
+    {% else %}
+    <form action="" method="post">
+        {% for field in form %}
+            <div class='row'>
+                <div class='col'>
+                  {{ field|as_crispy_field }}
+                </div>
+            </div>
+        {% endfor %}
+        {% csrf_token %}
+        <br>
+        <p><input type=submit 
+            value="{% if 'add' in request.path|slice:'-7:' %}Create{% else %}Update{% endif %}" 
+            class='btn btn-primary'></p>
+    </form>
+    {% endif %}
+{% endblock content %}
+    

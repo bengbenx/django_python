@@ -1,0 +1,9 @@
+<ul>
+    
+    {% for reference in latest_references %}
+        <li>
+            <a href="{% url 'blog:reference_list' %}">{{ reference.title }}</a>
+        </li>
+    {% endfor %}
+        
+</ul>

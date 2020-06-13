@@ -53,7 +53,27 @@ class Comment(models.Model):
     active=models.BooleanField(default=True)
 
     class Meta:
-        ordering=('created',)
+        ordering=('-created',)
     
     def __str__(self):
         return f'Comment by {self.name} on {self.post}'
+
+class Reference(models.Model):
+    title=models.CharField(max_length=250)
+    slug=models.SlugField(max_length=250, unique_for_date='created', blank=True)
+    description=models.TextField()
+    link=models.URLField()
+    author=models.ForeignKey(User, on_delete=models.CASCADE)
+    created = models.DateTimeField(auto_now_add=True)
+    updated=models.DateTimeField(auto_now=True)
+
+    objects=models.Manager()
+
+    class Meta:
+        ordering=('-created',)
+
+    def __str__(self):
+        return self.title
+
+    def get_absolute_url(self):
+        return reverse_lazy('blog:reference_detail',kwargs={'pk':self.id})

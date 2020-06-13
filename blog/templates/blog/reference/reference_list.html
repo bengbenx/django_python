@@ -1,0 +1,32 @@
+{% extends 'blog/base.html' %}
+
+{% block title %}References{% endblock title %}
+
+{% block content %}
+    <h1>References</h1>
+        
+    {% for reference in references %}
+        <h2>            
+                {{ reference.title }}           
+        </h2>
+        
+        <p class="date">
+            Published {{ reference.created }} by {{ reference.author }}
+        </p>
+        {{ reference.description }}
+
+        <p>Link : <a href="{{ reference.link }}">{{ reference.link }}</a></p>
+        <div class="text-right">
+            {% if reference.author == request.user%}
+                <a href="{% url 'blog:reference_update' reference.id reference.slug %}">Update</a> | 
+                <a href="{% url 'blog:reference_delete' reference.id reference.slug %}">Delete</a>
+            {% endif %}
+        </div>
+        
+        <hr>
+    {% empty %}
+        There are no reference yet
+    {% endfor %}
+
+    {% include "pagination.html" with page=page_obj %}
+{% endblock content %}

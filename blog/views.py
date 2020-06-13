@@ -1,7 +1,7 @@
-from django.shortcuts import render, get_object_or_404
-from .models import Post, Comment
+from django.shortcuts import render, get_object_or_404,redirect
+from .models import Post, Comment,Reference
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from .forms import EmailPostForm, CommentForm, SearchForm
+from .forms import EmailPostForm, CommentForm, SearchForm,ReferenceForm
 from django.core.mail import send_mail
 from django.conf import settings
 from taggit.models import Tag
@@ -218,6 +218,57 @@ class PostDeleteView(LoginRequiredMixin,DeleteView):
     template_name='blog/post/post_confirm_delete.html'
     query_pk_and_slug=True
     success_url=reverse_lazy('blog:post_list')
+
+    def get_queryset(self):
+        qs=super().get_queryset()
+
+        return qs.filter(author=self.request.user)
+
+class ReferenceListView(LoginRequiredMixin,ListView):
+    queryset=Reference.objects.all()
+    context_object_name='references'
+    paginate_by=5
+    template_name='blog/reference/reference_list.html'
+
+    def get_queryset(self):
+        qs=super().get_queryset()
+        
+        return qs
+
+    def get_context_data(self,**kwargs):
+        context=super().get_context_data(**kwargs)
+
+        return context
+
+class ReferenceCreateView(LoginRequiredMixin,CreateView):
+    model=Reference
+    template_name='blog/reference/reference_form.html'
+    fields=['title','description','link']
+    success_url=reverse_lazy('blog:reference_list')
+
+    def form_valid(self,form):
+        form.instance.author=self.request.user
+        form.instance.slug=slugify(form.instance.title, allow_unicode=True)
+        obj=form.save()
+        return super().form_valid(form)
+
+class ReferenceUpdateView(LoginRequiredMixin,UpdateView):
+    model=Reference
+    fields=['title','description','link']
+    template_name='blog/reference/reference_form.html'
+    query_pk_and_slug=True
+    success_url=reverse_lazy('blog:reference_list')
+
+    def get_queryset(self):
+        qs=super().get_queryset()
+
+        return qs.filter(author=self.request.user)
+
+class ReferenceDeleteView(LoginRequiredMixin,DeleteView):
+    model=Reference
+    template_name='blog/reference/reference_confirm_delete.html'
+    query_pk_and_slug=True
+    success_url=reverse_lazy('blog:reference_list')
 
     def get_queryset(self):
         qs=super().get_queryset()

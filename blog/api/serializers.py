@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from ..models import Post,Comment
+from ..models import Post,Comment,Reference
 from taggit_serializer.serializers import (TagListSerializerField,
                         TaggitSerializer)
 from django.contrib.auth import get_user_model
@@ -31,3 +31,10 @@ class PostSerializer(TaggitSerializer,serializers.ModelSerializer):
         model=Post
         fields=['id', 'title','slug','author','body','comments','tags','status']
         read_only_fields=['status']
+
+class ReferenceSerializer(TaggitSerializer,serializers.ModelSerializer):
+    author=serializers.ReadOnlyField(source='author.username')
+
+    class Meta:
+        model=Reference
+        fields=['id', 'title','slug','author','description','link']
